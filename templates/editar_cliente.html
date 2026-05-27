@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card">
+    <h1>Editar Cliente</h1>
+
+    <form method="POST" class="form">
+        <label>Nome da cliente</label>
+        <input type="text" name="nome" value="{{ cliente.nome }}" required>
+
+        <label>Telefone / WhatsApp</label>
+        <input type="text" name="telefone" value="{{ cliente.telefone }}">
+
+        <label>Observações</label>
+        <textarea name="observacoes">{{ cliente.observacoes }}</textarea>
+
+        <button type="submit">Salvar Alterações</button>
+    </form>
+</section>
+
+<a class="back-link" href="/clientes">Voltar</a>
+{% endblock %}

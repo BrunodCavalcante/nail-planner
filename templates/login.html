@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="card">
+
+    <h1>Nail Planner</h1>
+
+    <form method="POST">
+
+        <input type="text" name="usuario" placeholder="Usuário" required>
+
+        <input type="password" name="senha" placeholder="Senha" required>
+
+        <button type="submit">
+            Entrar
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

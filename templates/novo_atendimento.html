@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card">
+    <h1>Novo Atendimento</h1>
+
+    <form method="POST" class="form">
+        <label>Cliente</label>
+        <select name="cliente_id" required>
+            {% for cliente in clientes %}
+                <option value="{{ cliente.id }}">{{ cliente.nome }}</option>
+            {% endfor %}
+        </select>
+
+        <label>Serviço realizado</label>
+        <input type="text" name="servico" placeholder="Ex: Fibra, banho de gel, manutenção" required>
+
+        <label>Data a realizar o serviço</label>
+        <input type="date" name="data_atendimento" required>
+
+        <label>Observações</label>
+        <textarea name="observacoes" placeholder="Cor desejada, detalhes do atendimento..."></textarea>
+
+        <button type="submit">Salvar Atendimento</button>
+    </form>
+</section>
+
+<a class="back-link" href="/dashboard">Voltar</a>
+{% endblock %}

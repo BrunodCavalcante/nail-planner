@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="top-card">
+    <h1>Olá, Nail Designer 💖</h1>
+    <p>Veja seus retornos próximos e organize seus atendimentos.</p>
+</section>
+
+{% if mostrar_aviso and retornos|length > 0 %}
+<section class="alert-modal">
+    <h2>Aviso de retorno</h2>
+    <p>Você possui clientes com retorno em até 5 dias.</p>
+</section>
+{% endif %}
+
+<section class="menu-grid">
+    <a href="/clientes">Clientes</a>
+    <a href="/novo-agendamento">Novo Agendamento</a>
+    <a href="/novo-atendimento">Novo Atendimento</a>
+    <a href="/agenda">Agenda</a>
+    <a href="/logout">Sair</a>
+</section>
+
+<section class="card">
+    <h2>Retornos próximos</h2>
+
+    {% if retornos|length == 0 %}
+        <p class="empty">Nenhum retorno nos próximos 5 dias.</p>
+    {% endif %}
+
+    {% for retorno in retornos %}
+        <div class="return-item">
+            <strong>{{ retorno.nome }}</strong>
+            <span>{{ retorno.servico }}</span>
+            <small>Retorno: {{ retorno.data_retorno }}</small>
+            {% if retorno.telefone %}
+                <a class="whatsapp" href="https://wa.me/55{{ retorno.telefone|replace(' ', '')|replace('-', '')|replace('(', '')|replace(')', '') }}" target="_blank">Chamar no WhatsApp</a>
+            {% endif %}
+        </div>
+    {% endfor %}
+
+<section class="card">
+    <h2>Agendamentos próximos</h2>
+
+    {% if agendamentos_proximos|length == 0 %}
+        <p class="empty">Nenhum agendamento nos próximos 5 dias.</p>
+    {% endif %}
+
+    {% for agendamento in agendamentos_proximos %}
+        <div class="return-item">
+            <strong>{{ agendamento.nome }}</strong>
+            <span>{{ agendamento.servico }}</span>
+            <small>Data: {{ agendamento.data_atendimento }}</small>
+            {% if agendamento.telefone %}
+                <a class="whatsapp" href="https://wa.me/55{{ agendamento.telefone|replace(' ', '')|replace('-', '')|replace('(', '')|replace(')', '') }}" target="_blank">Chamar no WhatsApp</a>
+            {% endif %}
+        </div>
+    {% endfor %}
+</section>
+
+{% endblock %}

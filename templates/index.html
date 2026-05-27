@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="login-card">
+    <div class="brand-icon">💅</div>
+    <h1>Nail Planner</h1>
+    <p class="subtitle">Sua agenda delicada de clientes e retornos</p>
+
+    <form method="POST" class="form">
+        <label>Usuário</label>
+        <input type="text" name="usuario" placeholder="Digite seu usuário" required>
+
+        <label>Senha</label>
+        <input type="password" name="senha" placeholder="Digite sua senha" required>
+
+        <button type="submit">Entrar</button>
+    </form>
+
+    <p class="small-text">Login inicial: admin / 123456</p>
+</section>
+{% endblock %}

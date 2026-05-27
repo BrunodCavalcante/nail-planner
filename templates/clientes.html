@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card">
+    <h1>Clientes</h1>
+
+    <form method="POST" class="form">
+        <label>Nome da cliente</label>
+        <input type="text" name="nome" placeholder="Ex: Maria Silva" required>
+
+        <label>Telefone / WhatsApp</label>
+        <input type="text" name="telefone" placeholder="Ex: 67999999999">
+
+        <label>Observações</label>
+        <textarea name="observacoes" placeholder="Alergias, preferência de esmalte, estilo..."></textarea>
+
+        <button type="submit">Salvar Cliente</button>
+    </form>
+</section>
+
+<section class="card">
+    <h2>Clientes cadastradas</h2>
+
+    {% if clientes|length == 0 %}
+        <p class="empty">Nenhuma cliente cadastrada.</p>
+    {% endif %}
+
+    {% for cliente in clientes %}
+        <div class="client-item compact-item">
+            <div class="client-info">
+                <strong>{{ cliente.nome }}</strong>
+                {% if cliente.telefone %}
+                    <small>{{ cliente.telefone }}</small>
+                {% endif %}
+                {% if cliente.observacoes %}
+                    <p>{{ cliente.observacoes }}</p>
+                {% endif %}
+            </div>
+
+            <div class="action-row">
+                <a class="small-action edit-action" href="/editar-cliente/{{ cliente.id }}">Editar</a>
+
+                <form method="POST" action="/excluir-cliente/{{ cliente.id }}" onsubmit="return confirm('Deseja excluir esta cliente e todos os atendimentos dela?');">
+                    <button type="submit" class="small-action delete-action">Excluir</button>
+                </form>
+            </div>
+        </div>
+    {% endfor %}
+</section>
+
+<a class="back-link" href="/dashboard">Voltar</a>
+{% endblock %}

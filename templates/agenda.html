@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card">
+    <h1>Agenda</h1>
+
+    <div class="calendar-header">
+        <a href="/agenda?ano={{ ano_anterior }}&mes={{ mes_anterior }}&data={{ ano_anterior }}-{{ '%02d'|format(mes_anterior) }}-01">‹</a>
+        <strong>{{ nome_mes }} / {{ ano }}</strong>
+        <a href="/agenda?ano={{ proximo_ano }}&mes={{ proximo_mes }}&data={{ proximo_ano }}-{{ '%02d'|format(proximo_mes) }}-01">›</a>
+    </div>
+
+    <div class="calendar-weekdays">
+        <span>Dom</span>
+        <span>Seg</span>
+        <span>Ter</span>
+        <span>Qua</span>
+        <span>Qui</span>
+        <span>Sex</span>
+        <span>Sáb</span>
+    </div>
+
+    <div class="calendar-grid">
+        {% for semana in semanas %}
+            {% for dia in semana %}
+                {% set data_dia = dia.strftime('%Y-%m-%d') %}
+                <a
+                    href="/agenda?ano={{ ano }}&mes={{ mes }}&data={{ data_dia }}"
+                    class="calendar-day
+                    {% if dia.month != mes %} muted {% endif %}
+                    {% if data_dia == data_selecionada %} selected {% endif %}
+                    {% if data_dia in dias_com_agendamento %} has-event {% endif %}
+                    "
+                >
+                    <span>{{ dia.day }}</span>
+                    {% if data_dia in dias_com_agendamento %}
+                        <small>{{ dias_com_agendamento[data_dia] }}</small>
+                    {% endif %}
+                </a>
+            {% endfor %}
+        {% endfor %}
+    </div>
+</section>
+
+<section class="card">
+    <h2>Agenda do dia {{ data_selecionada }}</h2>
+
+    {% if atendimentos|length == 0 %}
+        <p class="empty">Nenhum atendimento cadastrado para este dia.</p>
+    {% endif %}
+
+    {% for item in atendimentos %}
+        <div class="agenda-item compact-item">
+            <strong>{{ item.nome }}</strong>
+            <span>{{ item.servico }}</span>
+            <small>Atendimento: {{ item.data_atendimento }}</small>
+            {% if item.data_retorno and item.data_retorno != item.data_atendimento %}
+                <small>Retorno: {{ item.data_retorno }}</small>
+            {% endif %}
+            {% if item.observacoes %}
+                <p>{{ item.observacoes }}</p>
+            {% endif %}
+
+            <div class="action-row">
+                <a class="small-action edit-action" href="/editar-atendimento/{{ item.id }}">Editar</a>
+
+                <form method="POST" action="/excluir-atendimento/{{ item.id }}" onsubmit="return confirm('Deseja excluir este atendimento?');">
+                    <input type="hidden" name="data_voltar" value="{{ data_selecionada }}">
+                    <button type="submit" class="small-action delete-action">Excluir</button>
+                </form>
+            </div>
+        </div>
+    {% endfor %}
+</section>
+
+<a class="back-link" href="/dashboard">Voltar</a>
+{% endblock %}

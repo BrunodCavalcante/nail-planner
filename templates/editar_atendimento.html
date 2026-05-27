@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="card">
+    <h1>Editar Agendamento</h1>
+
+    <form method="POST" class="form">
+        <label>Cliente</label>
+        <select name="cliente_id" required>
+            {% for cliente in clientes %}
+                <option value="{{ cliente.id }}" {% if cliente.id == atendimento.cliente_id %}selected{% endif %}>
+                    {{ cliente.nome }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label>Serviço realizado</label>
+        <input type="text" name="servico" value="{{ atendimento.servico }}" required>
+
+        <label>Data do serviço</label>
+        <input type="date" name="data_atendimento" value="{{ atendimento.data_atendimento }}" required>
+
+        <label>Retorno em quantos dias?</label>
+        <input type="number" name="dias_retorno" placeholder="Ex: 10, 15, 20..." min="1" required>
+
+        <p class="empty">Retorno atual: {{ atendimento.data_retorno }}</p>
+
+        <label>Observações</label>
+        <textarea name="observacoes">{{ atendimento.observacoes }}</textarea>
+
+        <button type="submit">Salvar Alterações</button>
+    </form>
+</section>
+
+<a class="back-link" href="/agenda?data={{ atendimento.data_atendimento }}">Voltar</a>
+{% endblock %}

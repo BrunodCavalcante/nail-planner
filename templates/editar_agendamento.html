@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<header class="topbar">
+    <div>
+        <h1>Editar Agendamento</h1>
+        <p>Altere os dados do atendimento</p>
+    </div>
+    <a class="small-link" href="/agenda?data={{ agendamento.data_atendimento }}">Voltar</a>
+</header>
+
+<section class="card">
+    <form method="POST" class="form">
+
+        <label>Cliente</label>
+        <select name="cliente_id" required>
+            {% for cliente in clientes %}
+                <option value="{{ cliente.id }}" {% if cliente.id == agendamento.cliente_id %}selected{% endif %}>
+                    {{ cliente.nome }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <label>Serviço realizado</label>
+        <input type="text" name="servico" value="{{ agendamento.servico or '' }}">
+
+        <label>Data do serviço</label>
+        <input type="date" name="data_atendimento" value="{{ agendamento.data_atendimento }}" required>
+
+        <label>Recalcular retorno em quantos dias?</label>
+        <input type="number" name="dias_retorno" placeholder="Deixe vazio para manter o retorno atual" min="1">
+
+        {% if agendamento.data_retorno %}
+            <p class="empty">Retorno atual: {{ agendamento.data_retorno }}</p>
+        {% endif %}
+
+        <label>Observações</label>
+        <textarea name="observacoes">{{ agendamento.observacoes or '' }}</textarea>
+
+        <button type="submit">Salvar Alterações</button>
+
+    </form>
+</section>
+
+{% endblock %}
